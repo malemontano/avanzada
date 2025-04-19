@@ -77,4 +77,58 @@ void listDelete(list_t* l){
     free(l);
 }
 
-//void listSwapNodes(list_t* l){}
+void listSwapNodes(list_t* l, uint8_t i, uint8_t j){
+    if(l==NULL || l->size < 2 || i==j){return;}
+    node_t* node_i = NULL;
+    node_t* prev_i = NULL;
+    node_t* node_j = NULL;
+    node_t* prev_j = NULL;
+    node_t* current = l->first;
+    node_t* prev = NULL;
+
+    if(i>j){
+        uint8_t n = i;
+        i = j;
+        j = n;
+    }
+    
+    
+    for(int k = 0; k <= j; k++){
+        if (current == NULL) { return; }
+        if(k==i){
+            node_i = current;
+            prev_i = prev;
+        }
+        if(k==j){
+            node_j = current;
+            prev_j = prev;
+        }
+        prev = current;
+        current = current->next;
+        
+    }
+
+    node_t* temp = node_j->next;
+    if(i==0){
+        l->first=node_j;//caso i==0
+    }
+    
+    if(j==i+1){//si son consecutivos
+        if(prev_i != NULL){
+            prev_i->next = node_j;
+        }
+        node_j->next = node_i;
+        node_i->next = temp;
+    }else{
+        node_j->next = node_i->next;
+        node_i->next = temp;
+        if (prev_i) {
+            prev_i->next = node_j;
+        }
+        if (prev_j) {
+            prev_j->next = node_i;
+        }
+
+    }
+    
+}
